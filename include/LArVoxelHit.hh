@@ -26,8 +26,6 @@ public:
   { vertex_x = cx; vertex_y = cy; vertex_z = cz; };
   void SetMomentum(const G4double px, const G4double py, const G4double pz)
   { vertex_px = px; vertex_py = py; vertex_pz = pz; };
-  void SetPos(const G4double cx, const G4double cy, const G4double cz)
-  { x = cx; y = cy; z = cz; };
   void SetVox(const G4int cx, const G4int cy, const G4int cz)
   { vox_x = cx; vox_y = cy; vox_z = cz; };
   void SetEnergy(const G4double e)
@@ -44,9 +42,6 @@ public:
   G4double GetMomX() { return vertex_px; };
   G4double GetMomY() { return vertex_py; };
   G4double GetMomZ() { return vertex_pz; };
-  G4double GetPosX() { return x; };
-  G4double GetPosY() { return y; };
-  G4double GetPosZ() { return z; };
   G4int GetVoxX() { return vox_x; };
   G4int GetVoxY() { return vox_y; };
   G4int GetVoxZ() { return vox_z; };
@@ -61,7 +56,6 @@ private:
   G4double vertex_energy;
   G4double vertex_x, vertex_y, vertex_z;
   G4double vertex_px, vertex_py, vertex_pz;
-  G4double x, y, z;
   G4int vox_x, vox_y, vox_z;
   G4double energy;
 };

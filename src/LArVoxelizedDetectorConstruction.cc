@@ -162,9 +162,9 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
   // Active volume.
   G4Box* act
     = new G4Box("bx_active",
-		14001*cm / 2.0,
-		12000*cm / 2.0,
-		58200*cm / 2.0);
+		1401*cm / 2.0,
+		1200*cm / 2.0,
+		5820*cm / 2.0);
   G4LogicalVolume* logical_act
     = new G4LogicalVolume(act,
 			  vol_mat,
@@ -185,29 +185,29 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
   G4Box* voxx
     = new G4Box("bx_active_splitx",
 		G4double(0.3*cm / 2.0),
-		G4double(12000*cm / 2.0),
-		G4double(58200*cm / 2.0));
+		G4double(1200*cm / 2.0),
+		G4double(5820*cm / 2.0));
   G4LogicalVolume* logical_voxx
     = new G4LogicalVolume(voxx, vol_mat, "lv_active_splitx");
   new G4PVReplica("rp_active_splitx",
 		  logical_voxx,
 		  logical_act,
 		  kXAxis,
-		  G4int(46670),
+		  G4int(4670),
 		  G4double(0.3*cm));
   
   G4Box* voxy
     = new G4Box("bx_active_splity",
 		G4double(0.3*cm / 2.0),
 		G4double(0.3*cm / 2.0),
-		G4double(58200*cm / 2.0));
+		G4double(5820*cm / 2.0));
   G4LogicalVolume* logical_voxy
     = new G4LogicalVolume(voxy, vol_mat, "lv_active_splity");
   new G4PVReplica("rp_active_splity",
 		  logical_voxy,
 		  logical_voxx,
 		  kYAxis,
-		  G4int(40000),
+		  G4int(4000),
 		  G4double(0.3*cm));
 
   G4Box* voxz
@@ -221,7 +221,7 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
 		  logical_voxelized,
 		  logical_voxy,
 		  kZAxis,
-		  G4int(194000),
+		  G4int(19400),
 		  G4double(0.3*cm));
 
   

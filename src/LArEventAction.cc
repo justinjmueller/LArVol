@@ -58,9 +58,6 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
     }
     if(h->GetEnergy() > 0.1)
     {
-      tracks[id].x.push_back(h->GetPosX());
-      tracks[id].y.push_back(h->GetPosY());
-      tracks[id].z.push_back(h->GetPosZ());
       tracks[id].vox_x.push_back(h->GetVoxX());
       tracks[id].vox_y.push_back(h->GetVoxY());
       tracks[id].vox_z.push_back(h->GetVoxZ());

@@ -24,13 +24,13 @@ void LArSensitiveDetector::Initialize(G4HCofThisEvent* hce)
 
 G4bool LArSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory*)
 {
+  G4StepPoint* pre = step->GetPreStepPoint();
+  G4TouchableHistory* touchable = (G4TouchableHistory*)(pre->GetTouchable());
+  G4Track* track = step->GetTrack();
   G4double energy(step->GetTotalEnergyDeposit() - step->GetNonIonizingEnergyDeposit());
-  if(step->GetPreStepPoint()->GetPosition().getZ() > -29100)
+  if(track->GetKineticEnergy() > 1.0 && touchable->GetVolume()->GetName() == "rp_active_voxels")
   {
     LArVoxelHit* hit = new LArVoxelHit(step->GetTrack()->GetTrackID());
-    G4StepPoint* pre = step->GetPreStepPoint();
-    G4Track* track = step->GetTrack();
-    G4TouchableHistory* touchable = (G4TouchableHistory*)(pre->GetTouchable());
     hit->SetEvent(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
     hit->SetPDG(track->GetDynamicParticle()->GetPDGcode());
     hit->SetParentID(track->GetParentID());
@@ -40,8 +40,6 @@ G4bool LArSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory*)
     hit->SetVertex(vertex.getX(), vertex.getY(), vertex.getZ());
     const auto& momentum = track->GetMomentumDirection();
     hit->SetMomentum(momentum.getX(), momentum.getY(), momentum.getZ());
-    const auto& pos = (pre->GetPosition() + step->GetPostStepPoint()->GetPosition()) / 2.0;
-    hit->SetPos(pos.getX(), pos.getY(), pos.getZ());
     hit->SetVox(touchable->GetReplicaNumber(2),
 		touchable->GetReplicaNumber(1),
 		touchable->GetReplicaNumber(0));
