@@ -25,7 +25,7 @@ void LArSensitiveDetector::Initialize(G4HCofThisEvent* hce)
 G4bool LArSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory*)
 {
   G4double energy(step->GetTotalEnergyDeposit() - step->GetNonIonizingEnergyDeposit());
-  if(energy > 0.25 && step->GetPreStepPoint()->GetPosition().getZ() > -29100)
+  if(step->GetPreStepPoint()->GetPosition().getZ() > -29100)
   {
     LArVoxelHit* hit = new LArVoxelHit(step->GetTrack()->GetTrackID());
     G4StepPoint* pre = step->GetPreStepPoint();

@@ -31,6 +31,7 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
 
   // Open the analysis output file.
   auto analysis_manager = G4AnalysisManager::Instance();
+  analysis_manager->SetNtupleMerging(true);
   analysis_manager->OpenFile("output_5GeV.root");
 
   analysis_manager->CreateNtuple("voxels", "Voxel information");
