@@ -1,6 +1,5 @@
 #include "LArSteppingAction.hh"
 #include "LArEventAction.hh"
-#include "LArDetectorConstruction.hh"
 
 #include "globals.hh"
 #include "G4Step.hh"

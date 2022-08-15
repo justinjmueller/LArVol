@@ -4,7 +4,6 @@
 #include "LArRunAction.hh"
 #include "LArEventAction.hh"
 #include "LArPrimaryGeneratorAction.hh"
-#include "LArDetectorConstruction.hh"
 #include "LArVoxTrack.cc"
 
 #include "G4RunManager.hh"
