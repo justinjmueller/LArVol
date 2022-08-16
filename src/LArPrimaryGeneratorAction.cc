@@ -45,7 +45,7 @@ void LArPrimaryGeneratorAction::GeneratePrimaries(G4Event* evt)
   }
   if(!target)
   {
-    G4LogicalVolume* vol_target(G4LogicalVolumeStore::GetInstance()->GetVolume("lv_target"));
+    G4LogicalVolume* vol_target(G4LogicalVolumeStore::GetInstance()->GetVolume("lv_target0"));
     if(vol_target) target = dynamic_cast<G4Box*>(vol_target->GetSolid());
   }
 
@@ -53,7 +53,7 @@ void LArPrimaryGeneratorAction::GeneratePrimaries(G4Event* evt)
   {
     x = 0.0;
     y = 0.0;
-    z = -1.0*(cryo->GetZHalfLength() + 10*cm + target->GetZHalfLength()*2.0);
+    z = -1.0*(cryo->GetZHalfLength() + 10*cm + 3*target->GetZHalfLength()*2.0);
   }  
   else
   {

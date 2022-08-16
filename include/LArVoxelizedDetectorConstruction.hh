@@ -9,12 +9,13 @@ class G4LogicalVolume;
 class LArVoxelizedDetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
-  LArVoxelizedDetectorConstruction();
+  LArVoxelizedDetectorConstruction(G4int n);
   virtual ~LArVoxelizedDetectorConstruction();
   virtual G4VPhysicalVolume* Construct();
   virtual void ConstructSDandField();
   G4LogicalVolume* GetActiveVolume() const { return active_volume; };
 protected:
-    G4LogicalVolume*  active_volume;
+  G4LogicalVolume*  active_volume;
+  G4int n_layers;
 };
 #endif
