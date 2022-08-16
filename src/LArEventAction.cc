@@ -55,6 +55,7 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
       tracks[id].vertex_px = h->GetMomX();
       tracks[id].vertex_py = h->GetMomY();
       tracks[id].vertex_pz = h->GetMomZ();
+      tracks[id].current_energy = h->GetCurrentEnergy();
     }
     if(h->GetEnergy() > 0.1)
     {
@@ -79,6 +80,7 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
     mgr->FillNtupleFColumn(0, 9, m.second.vertex_px);
     mgr->FillNtupleFColumn(0, 10, m.second.vertex_py);
     mgr->FillNtupleFColumn(0, 11, m.second.vertex_pz);
+    mgr->FillNtupleFColumn(0, 12, m.second.current_energy);
     mgr->AddNtupleRow(0);
   }
 }

@@ -46,6 +46,7 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
   analysis_manager->CreateNtupleFColumn(0, "vertex_px");
   analysis_manager->CreateNtupleFColumn(0, "vertex_py");
   analysis_manager->CreateNtupleFColumn(0, "vertex_pz");
+  analysis_manager->CreateNtupleFColumn(0, "start_energy");
   analysis_manager->CreateNtupleIColumn(0, "vox_x", vox_track.vox_x);
   analysis_manager->CreateNtupleIColumn(0, "vox_y", vox_track.vox_y);
   analysis_manager->CreateNtupleIColumn(0, "vox_z", vox_track.vox_z);

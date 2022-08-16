@@ -30,6 +30,8 @@ public:
   { vox_x = cx; vox_y = cy; vox_z = cz; };
   void SetEnergy(const G4double e)
   { energy = e; };
+  void SetCurrentEnergy(const G4double e)
+  { current_energy = e; };
   G4int GetID() { return id; };
   G4int GetEvent() { return event; };
   G4int GetPDG() { return pdg; };
@@ -46,6 +48,7 @@ public:
   G4int GetVoxY() { return vox_y; };
   G4int GetVoxZ() { return vox_z; };
   G4double GetEnergy() { return energy; };
+  G4double GetCurrentEnergy() { return current_energy; };
 
 private:
   G4int id;
@@ -58,6 +61,7 @@ private:
   G4double vertex_px, vertex_py, vertex_pz;
   G4int vox_x, vox_y, vox_z;
   G4double energy;
+  G4double current_energy;
 };
 
 typedef G4THitsCollection<LArVoxelHit> LArVoxelHitCollection;

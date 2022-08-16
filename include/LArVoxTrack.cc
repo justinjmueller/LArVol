@@ -17,6 +17,7 @@ struct VoxTrack
   float vertex_px;
   float vertex_py;
   float vertex_pz;
+  float current_energy;
   std::vector<float> x;
   std::vector<float> y;
   std::vector<float> z;

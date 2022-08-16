@@ -44,6 +44,7 @@ G4bool LArSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory*)
 		touchable->GetReplicaNumber(1),
 		touchable->GetReplicaNumber(0));
     hit->SetEnergy(energy);
+    hit->SetCurrentEnergy(pre->GetKineticEnergy());
     hit_collection->insert(hit);
   }
   return true;
