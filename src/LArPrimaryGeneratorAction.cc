@@ -24,7 +24,7 @@ LArPrimaryGeneratorAction::LArPrimaryGeneratorAction()
   G4ParticleDefinition* particle(table->FindParticle(name="e-"));
   particle_gun->SetParticleDefinition(particle);
   particle_gun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  particle_gun->SetParticleEnergy(50.*GeV);
+  particle_gun->SetParticleEnergy(5.*GeV);
 }
 
 LArPrimaryGeneratorAction::~LArPrimaryGeneratorAction()

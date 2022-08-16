@@ -227,7 +227,7 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
   
 
   // Target volume.
-  G4double tar_x(1.0*m), tar_y(1.0*m), tar_z(10.0*mm);
+  G4double tar_x(1.0*m), tar_y(1.0*m), tar_z(10.0*cm);
   G4Material* target_mat(nist->FindOrBuildMaterial("G4_Pb"));
   G4Box* target
     = new G4Box("bx_target",

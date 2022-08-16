@@ -8,7 +8,7 @@
 /tracking/verbose 0
 
 # Set the number of events to be generated.
-/control/alias NEvents 10000
+/control/alias NEvents 1000000
 
 # Start the run.
 /run/beamOn {NEvents}
