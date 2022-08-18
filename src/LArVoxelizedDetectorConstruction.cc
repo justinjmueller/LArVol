@@ -286,13 +286,24 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
   
   active_volume = logical_act;
 
+  #ifndef G4MULTITHREADED
+  std::cout << "Running in sequential mode." << std::endl;
+  LArSensitiveDetector* sd = new LArSensitiveDetector("LArSD");
+  G4SDManager* sd_manager = G4SDManager::GetSDMpointer();
+  sd_manager->AddNewDetector(sd);
+  logical_voxelized->SetSensitiveDetector(sd);
+  #endif
+  
   return physical_world;
 }
 
 void LArVoxelizedDetectorConstruction::ConstructSDandField()
 {
+  #ifdef G4MULTITHREADED
+  std::cout << "Running in multithreaded mode." << std::endl;
   LArSensitiveDetector* sd = new LArSensitiveDetector("LArSD");
   G4SDManager* sd_manager = G4SDManager::GetSDMpointer();
   sd_manager->AddNewDetector(sd);
   SetSensitiveDetector("lv_active_voxels", sd);
+  #endif
 }
