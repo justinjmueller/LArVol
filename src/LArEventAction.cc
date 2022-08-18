@@ -11,7 +11,8 @@
 LArEventAction::LArEventAction(LArRunAction* raction)
 : G4UserEventAction(),
   run_action(raction),
-  hcid(-1)
+  hcid(-1),
+  particle_list()
 { } 
 
 LArEventAction::~LArEventAction()
@@ -47,6 +48,7 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
       tracks[id].event_id = h->GetEvent();
       tracks[id].pdg = h->GetPDG();
       tracks[id].parent_id = h->GetParentID();
+      tracks[id].parent_pdg = particle_list.at(h->GetParentID());
       tracks[id].creator_process = h->GetCreatorProcess();
       tracks[id].vertex_energy = h->GetVertexEnergy();
       tracks[id].vertex_x = h->GetVertexX();
@@ -63,6 +65,7 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
       tracks[id].vox_y.push_back(h->GetVoxY());
       tracks[id].vox_z.push_back(h->GetVoxZ());
       tracks[id].energy.push_back(h->GetEnergy());
+      tracks[id].destruction_energy = h->GetCurrentEnergy();
     }
   }
   for(auto& m : tracks)
@@ -72,15 +75,18 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
     mgr->FillNtupleIColumn(0, 1, m.second.event_id);
     mgr->FillNtupleIColumn(0, 2, m.second.pdg);
     mgr->FillNtupleIColumn(0, 3, m.second.parent_id);
-    mgr->FillNtupleSColumn(0, 4, m.second.creator_process);
-    mgr->FillNtupleFColumn(0, 5, m.second.vertex_energy);
-    mgr->FillNtupleFColumn(0, 6, m.second.vertex_x);
-    mgr->FillNtupleFColumn(0, 7, m.second.vertex_y);
-    mgr->FillNtupleFColumn(0, 8, m.second.vertex_z);
-    mgr->FillNtupleFColumn(0, 9, m.second.vertex_px);
-    mgr->FillNtupleFColumn(0, 10, m.second.vertex_py);
-    mgr->FillNtupleFColumn(0, 11, m.second.vertex_pz);
-    mgr->FillNtupleFColumn(0, 12, m.second.current_energy);
+    mgr->FillNtupleIColumn(0, 4, m.second.parent_pdg);
+    mgr->FillNtupleSColumn(0, 5, m.second.creator_process);
+    mgr->FillNtupleFColumn(0, 6, m.second.vertex_energy);
+    mgr->FillNtupleFColumn(0, 7, m.second.current_energy);
+    mgr->FillNtupleFColumn(0, 8, m.second.destruction_energy);
+    mgr->FillNtupleFColumn(0, 9, m.second.vertex_x);
+    mgr->FillNtupleFColumn(0, 10, m.second.vertex_y);
+    mgr->FillNtupleFColumn(0, 11, m.second.vertex_z);
+    mgr->FillNtupleFColumn(0, 12, m.second.vertex_px);
+    mgr->FillNtupleFColumn(0, 13, m.second.vertex_py);
+    mgr->FillNtupleFColumn(0, 14, m.second.vertex_pz);
     mgr->AddNtupleRow(0);
   }
+  particle_list.clear();
 }

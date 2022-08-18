@@ -26,5 +26,5 @@ void LArActionInitialization::Build() const
   LArEventAction* event_action = new LArEventAction(run_action);
   SetUserAction(event_action);
 
-  SetUserAction(new LArSteppingAction());
+  SetUserAction(new LArSteppingAction(event_action));
 }
