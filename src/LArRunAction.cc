@@ -18,11 +18,20 @@
 
 LArRunAction::LArRunAction()
 : G4UserRunAction(),
-  vox_track()
-{ }
+  vox_track(),
+  output_name("output.root")
+{
+  messenger = new G4GenericMessenger(this, "/larvol/", "Base for LArVol parameters.");
+  messenger->DeclareMethod("output", &LArRunAction::SetOutputName);
+}
 
 LArRunAction::~LArRunAction()
 { }
+
+void LArRunAction::SetOutputName(G4String n)
+{
+  output_name = n;
+}
 
 void LArRunAction::BeginOfRunAction(const G4Run*)
 { 
@@ -31,7 +40,8 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
   // Open the analysis output file.
   auto analysis_manager = G4AnalysisManager::Instance();
   analysis_manager->SetNtupleMerging(true);
-  analysis_manager->OpenFile("output_5GeV.root");
+  analysis_manager->SetDefaultFileType("root");
+  analysis_manager->OpenFile(output_name);
 
   analysis_manager->CreateNtuple("voxels", "Voxel information");
   analysis_manager->CreateNtupleIColumn(0, "track_id");

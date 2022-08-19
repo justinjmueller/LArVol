@@ -16,7 +16,7 @@ int main(int argc,char** argv)
 
   auto* run_manager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
-  run_manager->SetUserInitialization(new LArVoxelizedDetectorConstruction(1));
+  run_manager->SetUserInitialization(new LArVoxelizedDetectorConstruction());
 
   G4VModularPhysicsList* physics_list = new FTFP_BERT;
   physics_list->SetVerboseLevel(0);

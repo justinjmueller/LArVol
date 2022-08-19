@@ -2,6 +2,7 @@
 #include "LArSensitiveDetector.hh"
 
 #include "G4RunManager.hh"
+#include "G4GenericMessenger.hh"
 #include "G4NistManager.hh"
 #include "globals.hh"
 #include "G4Box.hh"
@@ -16,11 +17,19 @@
 #include "G4SDManager.hh"
 
 
-LArVoxelizedDetectorConstruction::LArVoxelizedDetectorConstruction(const G4int n)
+LArVoxelizedDetectorConstruction::LArVoxelizedDetectorConstruction()
 : G4VUserDetectorConstruction(),
   active_volume(0),
-  n_layers(n)
-{ }
+  n_layers(0)
+{
+  messenger = new G4GenericMessenger(this, "/larvol/", "Base for LArVol parameters.");
+  messenger->DeclareMethod("nlayers", &LArVoxelizedDetectorConstruction::SetNLayers);
+}
+
+void LArVoxelizedDetectorConstruction::SetNLayers(G4String n)
+{
+  n_layers = std::stof(n);
+}
 
 
 LArVoxelizedDetectorConstruction::~LArVoxelizedDetectorConstruction()
@@ -29,6 +38,7 @@ LArVoxelizedDetectorConstruction::~LArVoxelizedDetectorConstruction()
 
 G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
 {
+  std::cout << "Using " << n_layers << " layers!" << std::endl;
   // Get NIST material manager.
   G4NistManager* nist = G4NistManager::Instance();
 

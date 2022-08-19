@@ -18,7 +18,11 @@ public:
   virtual ~LArRunAction();
   virtual void BeginOfRunAction(const G4Run*);
   virtual void EndOfRunAction(const G4Run*);
+  void SetOutputName(G4String n);
   VoxTrack vox_track;
+private:
+  G4String output_name;
+  G4GenericMessenger* messenger;
 };
 
 #endif
