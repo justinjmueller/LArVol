@@ -39,7 +39,9 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
 
   // Open the analysis output file.
   auto analysis_manager = G4AnalysisManager::Instance();
+  #ifdef G4MULTITHREADED
   analysis_manager->SetNtupleMerging(true);
+  #endif
   analysis_manager->SetDefaultFileType("root");
   analysis_manager->OpenFile(output_name);
 
