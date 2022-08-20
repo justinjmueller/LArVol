@@ -17,7 +17,7 @@ int main(int argc,char** argv)
 
   G4int seed(time(0));
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
-  G4Random::setTheSeed(seed);
+  G4Random::setTheSeed(0);//seed);
   
   auto* run_manager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 

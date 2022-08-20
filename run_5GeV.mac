@@ -1,5 +1,5 @@
 /larvol/nlayers 2
-/larvol/output output_name
+/larvol/output test_output
 
 # Initialize kernel.
 /run/initialize
@@ -11,7 +11,7 @@
 /tracking/verbose 0
 
 # Set the number of events to be generated.
-/control/alias NEvents 10000
+/control/alias NEvents 100000
 
 # Start the run.
 /run/beamOn {NEvents}

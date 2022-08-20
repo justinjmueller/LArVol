@@ -2,6 +2,7 @@
 #include "LArPrimaryGeneratorAction.hh"
 #include "LArRunAction.hh"
 #include "LArEventAction.hh"
+#include "LArTrackingAction.hh"
 #include "LArSteppingAction.hh"
 
 LArActionInitialization::LArActionInitialization()
@@ -26,5 +27,7 @@ void LArActionInitialization::Build() const
   LArEventAction* event_action = new LArEventAction(run_action);
   SetUserAction(event_action);
 
-  SetUserAction(new LArSteppingAction(event_action));
+  SetUserAction(new LArTrackingAction(event_action));
+  
+  SetUserAction(new LArSteppingAction());
 }
