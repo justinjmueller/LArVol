@@ -238,7 +238,7 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
   
 
   // Target volume.
-  G4double tar_x(1.0*m), tar_y(1.0*m), tar_z(10.0*cm);
+  G4double tar_x(30*cm), tar_y(30*cm), tar_z(10.0*cm);
   G4Material* target_mat(nist->FindOrBuildMaterial("G4_Pb"));
   G4Box* target0
     = new G4Box("bx_target0",
@@ -289,6 +289,42 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
 		    G4ThreeVector(0.0*m, 0.0*m, -0.5*cryo_z - 0.5*tar_z - 30.0*cm),
 		    logical_target2,
 		    "sv_target2",
+		    logical_world,
+		    false,
+		    0,
+		    false);
+
+  G4Box* target3
+    = new G4Box("bx_target3",
+		0.5*tar_x,
+		0.5*tar_y,
+		0.5*tar_z);
+  G4LogicalVolume* logical_target3
+    = new G4LogicalVolume(target3,
+			  n_layers > 3 ? target_mat : ambient_mat,
+			  "lv_target3");
+  new G4PVPlacement(0,
+		    G4ThreeVector(0.0*m, 0.0*m, -0.5*cryo_z - 0.5*tar_z - 40.0*cm),
+		    logical_target3,
+		    "sv_target3",
+		    logical_world,
+		    false,
+		    0,
+		    false);
+
+  G4Box* target4
+    = new G4Box("bx_target4",
+		0.5*tar_x,
+		0.5*tar_y,
+		0.5*tar_z);
+  G4LogicalVolume* logical_target4
+    = new G4LogicalVolume(target4,
+			  n_layers > 4 ? target_mat : ambient_mat,
+			  "lv_target4");
+  new G4PVPlacement(0,
+		    G4ThreeVector(0.0*m, 0.0*m, -0.5*cryo_z - 0.5*tar_z - 50.0*cm),
+		    logical_target4,
+		    "sv_target4",
 		    logical_world,
 		    false,
 		    0,

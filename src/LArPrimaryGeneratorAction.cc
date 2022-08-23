@@ -53,7 +53,7 @@ void LArPrimaryGeneratorAction::GeneratePrimaries(G4Event* evt)
   {
     x = 0.0;
     y = 0.0;
-    z = -1.0*(cryo->GetZHalfLength() + 10*cm + 3*target->GetZHalfLength()*2.0);
+    z = -1.0*(cryo->GetZHalfLength() + 10*cm + 5*target->GetZHalfLength()*2.0);
   }  
   else
   {
