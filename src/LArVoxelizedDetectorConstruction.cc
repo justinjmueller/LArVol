@@ -92,7 +92,7 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
 			0,
 			false);
   // Cryostat.
-  G4double cryo_x(18.9*m), cryo_y(17.8*m), cryo_z(65.8*m);
+  G4double cryo_x(1672.64*cm), cryo_y(1562.64*cm), cryo_z(6362.64*cm);
   G4Box* cryo_outer
     = new G4Box("bx_cryostat_outer",
 		0.5*cryo_x,
@@ -111,11 +111,12 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
 		    0,
 		    false);
 
+  G4double cryo_foam_x(1670.24*cm), cryo_foam_y(1560.24*cm), cryo_foam_z(6360.24*cm);
   G4Box* cryo_foam
     = new G4Box("bx_cryostat_foam",
-		0.5*cryo_x - 1.2*cm,
-		0.5*cryo_y - 1.2*cm,
-		0.5*cryo_z - 1.2*cm);
+		0.5*cryo_foam_x,
+		0.5*cryo_foam_y,
+		0.5*cryo_foam_z);
   G4LogicalVolume* logical_cryo_foam
     = new G4LogicalVolume(cryo_foam,
 			  polyurethane,
@@ -129,11 +130,12 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
 		    0,
 		    false);
 
+  G4double cryo_inner_x(1510.24*cm), cryo_inner_y(1400.24*cm), cryo_inner_z(6200.24*cm);
   G4Box* cryo_inner
     = new G4Box("bx_cryostat_inner",
-		0.5*cryo_x - 1.2*cm - 80.0*cm,
-		0.5*cryo_y - 1.2*cm - 80.0*cm,
-		0.5*cryo_z - 1.2*cm - 80.0*cm);
+		0.5*cryo_inner_x,
+		0.5*cryo_inner_y,
+		0.5*cryo_inner_z);
   G4LogicalVolume* logical_cryo_inner
     = new G4LogicalVolume(cryo_inner,
 			  stainless_steel,
@@ -148,9 +150,7 @@ G4VPhysicalVolume* LArVoxelizedDetectorConstruction::Construct()
 		    false);
   
   // Full argon volume.
-  G4double vol_x(cryo_x - 1.2*cm - 80.0*cm - 0.12*cm);
-  G4double vol_y(cryo_y - 1.2*cm - 80.0*cm - 0.12*cm);
-  G4double vol_z(cryo_z - 1.2*cm - 80.0*cm - 0.12*cm);
+  G4double vol_x(1510*cm), vol_y(1400*cm), vol_z(6200*cm);
   G4Material* vol_mat(nist->FindOrBuildMaterial("G4_lAr"));
   G4Box* vol
     = new G4Box("bx_volume",
