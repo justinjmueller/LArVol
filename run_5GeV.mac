@@ -1,4 +1,4 @@
-/larvol/nlayers 2
+/larvol/nlayers 3
 /larvol/output output_5GeV
 
 # Initialize kernel.
@@ -11,7 +11,9 @@
 /tracking/verbose 0
 
 # Set the number of events to be generated.
-/control/alias NEvents 10000000
+/control/alias NEvents 10000
+
+# /gun/energy 10 GeV
 
 # Start the run.
 /run/beamOn {NEvents}

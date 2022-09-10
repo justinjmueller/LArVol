@@ -65,8 +65,13 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
   analysis_manager->CreateNtupleIColumn(0, "vox_y", vox_track.vox_y);
   analysis_manager->CreateNtupleIColumn(0, "vox_z", vox_track.vox_z);
   analysis_manager->CreateNtupleFColumn(0, "energy", vox_track.energy);
-
   analysis_manager->FinishNtuple();
+
+  /*analysis_manager->CreateNtuple("statistics", "Statistics");
+  analysis_manager->CreateNtupleIColumn(1, "event_id");
+  analysis_manager->CreateNtupleIColumn(1, "pdg");
+  analysis_manager->CreateNtupleFColumn(1, "energy");
+  analysis_manager->FinishNtuple();*/
 }
 
 void LArRunAction::EndOfRunAction(const G4Run* run)
