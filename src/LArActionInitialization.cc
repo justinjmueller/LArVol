@@ -29,5 +29,5 @@ void LArActionInitialization::Build() const
 
   SetUserAction(new LArTrackingAction(event_action));
   
-  SetUserAction(new LArSteppingAction());
+  SetUserAction(new LArSteppingAction(event_action));
 }
