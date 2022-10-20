@@ -4,7 +4,7 @@
 
 #include "G4UImanager.hh"
 //#include "FTFP_BERT.hh"
-#include "QGSP_BERT.hh"
+#include "QGSP_BERT_HP.hh"
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
 #include "Randomize.hh"
@@ -24,7 +24,7 @@ int main(int argc,char** argv)
 
   run_manager->SetUserInitialization(new LArVoxelizedDetectorConstruction());
 
-  G4VModularPhysicsList* physics_list = new QGSP_BERT;
+  G4VModularPhysicsList* physics_list = new QGSP_BERT_HP;
   physics_list->SetVerboseLevel(0);
   run_manager->SetUserInitialization(physics_list);
  

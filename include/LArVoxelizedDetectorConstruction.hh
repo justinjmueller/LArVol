@@ -15,10 +15,10 @@ public:
   virtual G4VPhysicalVolume* Construct();
   virtual void ConstructSDandField();
   G4LogicalVolume* GetActiveVolume() const { return active_volume; };
-  void SetNLayers(G4String n);
+  void SetTarget(G4String n);
 protected:
   G4LogicalVolume*  active_volume;
-  G4int n_layers;
+  G4double target_thickness;
   G4GenericMessenger* messenger;
 };
 #endif

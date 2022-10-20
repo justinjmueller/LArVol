@@ -71,17 +71,17 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
   analysis_manager->CreateNtupleIColumn(1, "track_id");
   analysis_manager->CreateNtupleIColumn(1, "event_id");
   analysis_manager->CreateNtupleIColumn(1, "pdg");
-  analysis_manager->CreateNtupleIColumn(1, "parent_id");
-  analysis_manager->CreateNtupleIColumn(1, "parent_pdg");
-  analysis_manager->CreateNtupleSColumn(1, "creator_process");
-  analysis_manager->CreateNtupleFColumn(1, "vertex_energy");
+  //analysis_manager->CreateNtupleIColumn(1, "parent_id");
+  //analysis_manager->CreateNtupleIColumn(1, "parent_pdg");
+  //analysis_manager->CreateNtupleSColumn(1, "creator_process");
+  //analysis_manager->CreateNtupleFColumn(1, "vertex_energy");
   analysis_manager->CreateNtupleFColumn(1, "start_energy");
-  analysis_manager->CreateNtupleFColumn(1, "vertex_x");
-  analysis_manager->CreateNtupleFColumn(1, "vertex_y");
-  analysis_manager->CreateNtupleFColumn(1, "vertex_z");
-  analysis_manager->CreateNtupleFColumn(1, "vertex_px");
-  analysis_manager->CreateNtupleFColumn(1, "vertex_py");
-  analysis_manager->CreateNtupleFColumn(1, "vertex_pz");
+  //analysis_manager->CreateNtupleFColumn(1, "vertex_x");
+  //analysis_manager->CreateNtupleFColumn(1, "vertex_y");
+  //analysis_manager->CreateNtupleFColumn(1, "vertex_z");
+  //analysis_manager->CreateNtupleFColumn(1, "vertex_px");
+  //analysis_manager->CreateNtupleFColumn(1, "vertex_py");
+  //analysis_manager->CreateNtupleFColumn(1, "vertex_pz");
   analysis_manager->FinishNtuple();
 }
 
