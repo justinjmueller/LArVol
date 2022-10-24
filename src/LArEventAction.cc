@@ -2,6 +2,7 @@
 #include "LArRunAction.hh"
 #include "LArVoxelHit.hh"
 #include "LArVoxTrack.cc"
+#include "LArAnalysisTools.hh"
 
 #include "G4Event.hh"
 #include "G4RunManager.hh"
@@ -37,6 +38,7 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
   
   G4AnalysisManager* mgr = G4AnalysisManager::Instance();
   std::map<G4int, VoxTrack> tracks;
+  std::vector<analysis::particle> active_particles;
   for(size_t n(0); n < hit_collection->entries(); ++n)
   {
     auto h = (*hit_collection)[n];
@@ -87,6 +89,17 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
     mgr->FillNtupleFColumn(0, 13, m.second.vertex_py);
     mgr->FillNtupleFColumn(0, 14, m.second.vertex_pz);
     mgr->AddNtupleRow(0);
+
+    active_particles.push_back(analysis::particle(m.second.pdg,
+						  m.second.current_energy,
+						  m.second.vertex_x,
+						  m.second.vertex_y,
+						  m.second.vertex_z));
   }
   particle_list.clear();
+
+  analysis::fill_exiting_histograms(exiting_particles);
+  analysis::fill_active_histograms(active_particles);
+  exiting_particles.clear();
+  active_particles.clear();
 }

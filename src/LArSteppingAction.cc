@@ -1,5 +1,6 @@
 #include "LArSteppingAction.hh"
 #include "LArEventAction.hh"
+#include "LArAnalysisTools.hh"
 
 #include "globals.hh"
 #include "G4Step.hh"
@@ -24,7 +25,11 @@ void LArSteppingAction::UserSteppingAction(const G4Step* step)
   if(step->GetPreStepPoint()->GetPhysicalVolume()->GetName() == "sv_target" &&
      step->GetPostStepPoint()->GetPhysicalVolume()->GetName() == "sv_world")
   {
-    
+    auto vtx = track->GetVertexPosition();
+    event_action->AddExitingParticle(analysis::particle(track->GetDynamicParticle()->GetPDGcode(),
+							track->GetKineticEnergy(),
+							vtx.x(), vtx.y(), vtx.z()));
+    /*
     G4AnalysisManager* mgr = G4AnalysisManager::Instance();
     G4int evt(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
     G4int parent_pdg(track->GetParentID() == 0 ? 0 : event_action->GetParticleList().at(track->GetParentID()));
@@ -44,7 +49,7 @@ void LArSteppingAction::UserSteppingAction(const G4Step* step)
     //mgr->FillNtupleFColumn(1, 12, track->GetVertexMomentumDirection().y());
     //mgr->FillNtupleFColumn(1, 13, track->GetVertexMomentumDirection().z());
     mgr->AddNtupleRow(1);
-    
+    */
     if(track->GetDynamicParticle()->GetCharge() != 0)
       track->SetTrackStatus(fStopAndKill);
 

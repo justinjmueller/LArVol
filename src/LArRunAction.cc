@@ -1,11 +1,12 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
 #include "LArRunAction.hh"
 #include "LArEventAction.hh"
 #include "LArPrimaryGeneratorAction.hh"
 #include "LArVoxTrack.cc"
-
+#include "LArAnalysisTools.hh"
 #include "G4RunManager.hh"
 #include "G4Run.hh"
 #include "G4GenericMessenger.hh"
@@ -67,6 +68,7 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
   analysis_manager->CreateNtupleFColumn(0, "energy", vox_track.energy);
   analysis_manager->FinishNtuple();
 
+  /*
   analysis_manager->CreateNtuple("target", "Target information");
   analysis_manager->CreateNtupleIColumn(1, "track_id");
   analysis_manager->CreateNtupleIColumn(1, "event_id");
@@ -83,6 +85,8 @@ void LArRunAction::BeginOfRunAction(const G4Run*)
   //analysis_manager->CreateNtupleFColumn(1, "vertex_py");
   //analysis_manager->CreateNtupleFColumn(1, "vertex_pz");
   analysis_manager->FinishNtuple();
+  */
+  analysis::create_histograms();
 }
 
 void LArRunAction::EndOfRunAction(const G4Run* run)
