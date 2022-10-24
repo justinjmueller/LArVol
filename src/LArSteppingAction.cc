@@ -27,8 +27,10 @@ void LArSteppingAction::UserSteppingAction(const G4Step* step)
   {
     auto vtx = track->GetVertexPosition();
     event_action->AddExitingParticle(analysis::particle(track->GetDynamicParticle()->GetPDGcode(),
+							track->GetTrackID(),
+							track->GetParentID(),
 							track->GetKineticEnergy(),
-							vtx.x(), vtx.y(), vtx.z()));
+							vtx.x(), vtx.y(), vtx.z(), 0));
     /*
     G4AnalysisManager* mgr = G4AnalysisManager::Instance();
     G4int evt(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());

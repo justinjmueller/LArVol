@@ -90,14 +90,21 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
     mgr->FillNtupleFColumn(0, 14, m.second.vertex_pz);
     mgr->AddNtupleRow(0);
 
+    auto length = m.second.vox_x.size() > 2 ? (std::sqrt(std::pow(m.second.vox_x.front() - m.second.vox_x.back(), 2) +
+							 std::pow(m.second.vox_y.front() - m.second.vox_y.back(), 2) +
+							 std::pow(m.second.vox_z.front() - m.second.vox_z.back(), 2))) : 0;
     active_particles.push_back(analysis::particle(m.second.pdg,
+						  m.second.track_id,
+						  m.second.parent_id,
 						  m.second.current_energy,
 						  m.second.vertex_x,
 						  m.second.vertex_y,
-						  m.second.vertex_z));
+						  m.second.vertex_z,
+						  0.3*length));
   }
   particle_list.clear();
 
+  analysis::find_intv(active_particles);
   analysis::fill_exiting_histograms(exiting_particles);
   analysis::fill_active_histograms(active_particles);
   exiting_particles.clear();
