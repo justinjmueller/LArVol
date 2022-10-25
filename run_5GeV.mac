@@ -1,8 +1,12 @@
 /larvol/thickness 2.0
-/larvol/output output_5GeV
+/larvol/output output_5GeV_tuple
 
 # Initialize kernel.
 /run/initialize
+
+/larvol/write_voxel_tuple true
+/larvol/write_target_tuple true
+/larvol/write_histograms true
 
 # Set the verbosity.
 /control/verbose 0
@@ -11,7 +15,7 @@
 /tracking/verbose 0
 
 # Set the number of events to be generated.
-/control/alias NEvents 100000
+/control/alias NEvents 1000
 
 # /gun/energy 10 GeV
 

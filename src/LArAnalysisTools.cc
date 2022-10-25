@@ -12,6 +12,16 @@
 
 namespace analysis
 {
+  particle::particle()
+    : track_id(0) {}
+  particle::particle(int32_t p, uint32_t tid, uint32_t pid, float e, float xi, float yi, float zi, float l)
+    : track_id(tid),
+      pdg(p),
+      parent_id(pid),
+      current_energy(e),
+      x(xi), y(yi), z(zi),
+      intv(false),
+      length(l) {}
   
   void create_histograms()
   {
@@ -62,7 +72,7 @@ namespace analysis
       pmap[pdgs[i]] = i;
     for(auto p : particles)
     {
-      mgr->FillH1(7*pmap[p.pdg]+0, p.energy);
+      mgr->FillH1(7*pmap[p.pdg]+0, p.current_energy);
       mgr->FillH1(7*pmap[p.pdg]+1, p.x);
       mgr->FillH1(7*pmap[p.pdg]+2, p.y);
     }
@@ -82,14 +92,14 @@ namespace analysis
     {
       if(pmap.find(p.pdg) != pmap.end())
       {
-	mgr->FillH1(7*pmap[p.pdg]+3, p.energy);
+	mgr->FillH1(7*pmap[p.pdg]+3, p.current_energy);
 	mgr->FillH1(7*pmap[p.pdg]+4, p.x);
 	mgr->FillH1(7*pmap[p.pdg]+5, p.y);
 	mgr->FillH1(7*pmap[p.pdg]+6, p.z);
       }
       if(p.intv && pmap_intv.find(p.pdg) != pmap.end())
       {
-	mgr->FillH1(7*pdgs.size()+2*pmap_intv[p.pdg]+0, p.energy);
+	mgr->FillH1(7*pdgs.size()+2*pmap_intv[p.pdg]+0, p.current_energy);
 	mgr->FillH1(7*pdgs.size()+2*pmap_intv[p.pdg]+1, p.length);
       }
     }
@@ -123,5 +133,42 @@ namespace analysis
 	}
       }
     }
+  }
+
+  void create_voxel_tuple(particle& p)
+  {
+    auto mgr = G4AnalysisManager::Instance();
+    mgr->CreateNtuple("voxels", "Voxel information");
+    mgr->CreateNtupleIColumn(0, "track_id");
+    mgr->CreateNtupleIColumn(0, "event_id");
+    mgr->CreateNtupleIColumn(0, "pdg");
+    mgr->CreateNtupleIColumn(0, "parent_id");
+    mgr->CreateNtupleIColumn(0, "parent_pdg");
+    mgr->CreateNtupleSColumn(0, "creator_process");
+    mgr->CreateNtupleFColumn(0, "vertex_energy");
+    mgr->CreateNtupleFColumn(0, "start_energy");
+    mgr->CreateNtupleFColumn(0, "destruction_energy");
+    mgr->CreateNtupleFColumn(0, "vertex_x");
+    mgr->CreateNtupleFColumn(0, "vertex_y");
+    mgr->CreateNtupleFColumn(0, "vertex_z");
+    mgr->CreateNtupleFColumn(0, "vertex_px");
+    mgr->CreateNtupleFColumn(0, "vertex_py");
+    mgr->CreateNtupleFColumn(0, "vertex_pz");
+    mgr->CreateNtupleIColumn(0, "vox_x", p.vox_x);
+    mgr->CreateNtupleIColumn(0, "vox_y", p.vox_y);
+    mgr->CreateNtupleIColumn(0, "vox_z", p.vox_z);
+    mgr->CreateNtupleFColumn(0, "energy", p.energy);
+    mgr->FinishNtuple();
+  }
+
+  void create_target_tuple()
+  {
+    auto mgr = G4AnalysisManager::Instance();
+    mgr->CreateNtuple("target", "Target information");
+    mgr->CreateNtupleIColumn(1, "track_id");
+    mgr->CreateNtupleIColumn(1, "event_id");
+    mgr->CreateNtupleIColumn(1, "pdg");
+    mgr->CreateNtupleFColumn(1, "start_energy");
+    mgr->FinishNtuple();
   }
 }

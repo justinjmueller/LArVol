@@ -12,7 +12,8 @@ public:
   LArSteppingAction(LArEventAction* eact);
   virtual ~LArSteppingAction();
   virtual void UserSteppingAction(const G4Step*);
-  private:
+private:
   LArEventAction* event_action;
+  bool write_target_tuple;
 };
 #endif
