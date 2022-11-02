@@ -8,10 +8,10 @@
 #include "G4SystemOfUnits.hh"
 
 #define PDG {-11, 11, -13, 13, 22, -211, 211, 130, 310, -321, 321, 111, 2112, 2212, 3222, 3112, 3212, 1000010020, 1000010030, 1000020030, 1000020040}
-#define INTV {-321, -211, 211, 321, 2212, 1000010020}
+#define INTV {-321, -211, 211, 321, 2112, 2212, 1000010020}
 
 namespace analysis
-{
+{ 
   particle::particle()
     : track_id(0) {}
   particle::particle(int32_t p, uint32_t tid, uint32_t pid, float e, float xi, float yi, float zi, float l)
@@ -20,7 +20,7 @@ namespace analysis
       parent_id(pid),
       current_energy(e),
       x(xi), y(yi), z(zi),
-      intv(false),
+      intv_class(0),
       length(l) {}
   
   void create_histograms()
@@ -56,10 +56,14 @@ namespace analysis
       if(v < 0) pname[0] = 'm';
       else pname = "p"+pname;
 
-      mgr->CreateH1("intv_" + pname + "_energy",
-		    "Energy", 5000, 0, 0.5*GeV);
-      mgr->CreateH1("intv_" + pname + "_length",
-		    "Length", 10000, 0, 1000*cm);
+      for(uint16_t intv_class(1); intv_class < 6; ++intv_class)
+      {
+	auto vclass = "intv" + std::to_string(intv_class) + "_";
+	mgr->CreateH1(vclass + pname + "_energy",
+		      "Energy", 5000, 0, 0.5*GeV);
+	mgr->CreateH1(vclass + pname + "_length",
+		      "Length", 10000, 0, 1000*cm);
+      }
     }
   }
 
@@ -97,10 +101,10 @@ namespace analysis
 	mgr->FillH1(7*pmap[p.pdg]+5, p.y);
 	mgr->FillH1(7*pmap[p.pdg]+6, p.z);
       }
-      if(p.intv && pmap_intv.find(p.pdg) != pmap.end())
-      {
-	mgr->FillH1(7*pdgs.size()+2*pmap_intv[p.pdg]+0, p.current_energy);
-	mgr->FillH1(7*pdgs.size()+2*pmap_intv[p.pdg]+1, p.length);
+      if(p.intv_class > 1 && pmap_intv.find(p.pdg) != pmap.end())
+      {	
+	mgr->FillH1(7*pdgs.size()+10*pmap_intv[p.pdg]+2*(p.intv_class-1), p.current_energy);
+	mgr->FillH1(7*pdgs.size()+10*pmap_intv[p.pdg]+2*(p.intv_class-1)+1, p.length);
       }
     }
   }
@@ -126,11 +130,11 @@ namespace analysis
       {
         for(auto &d : p.second)
 	  passes.push_back(particles[pmap[d]].length > 10.0 && std::find(pdgs.begin(), pdgs.end(), particles[pmap[d]].pdg) != pdgs.end());
-	if(std::count(passes.begin(), passes.end(), true) >= 1)
-	{
-	  for(size_t i(0); i < passes.size(); ++i)
-	    if(passes[i]) particles[pmap[p.second[i]]].intv = true;
-	}
+	uint16_t intv_class(std::count(passes.begin(), passes.end(), true));
+	intv_class = (intv_class > 0 && intv_class < 6) ? intv_class : 0;
+	particles[pmap[p.first]].intv_class = intv_class;
+	for(size_t i(0); i < passes.size(); ++i)
+	  if(passes[i]) particles[pmap[p.second[i]]].intv_class = intv_class;
       }
     }
   }
@@ -170,5 +174,36 @@ namespace analysis
     mgr->CreateNtupleIColumn(1, "pdg");
     mgr->CreateNtupleFColumn(1, "start_energy");
     mgr->FinishNtuple();
+  }
+
+  void create_intv_tuple()
+  {
+    auto mgr = G4AnalysisManager::Instance();
+    mgr->CreateNtuple("neutron_induced", "Neutron-induced Particles");
+    mgr->CreateNtupleIColumn(2, "track_id");
+    mgr->CreateNtupleIColumn(2, "event_id");
+    mgr->CreateNtupleIColumn(2, "pdg");
+    mgr->CreateNtupleIColumn(2, "parent_id");
+    mgr->CreateNtupleFColumn(2, "energy");
+    mgr->CreateNtupleFColumn(2, "length");
+    mgr->FinishNtuple();
+  }
+
+  void fill_intv_tuple(std::vector<particle>& particles)
+  {
+    auto mgr = G4AnalysisManager::Instance();
+    for(auto &p : particles)
+    {
+      if(p.intv_class != 0)
+      {
+	mgr->FillNtupleIColumn(2, 0, p.track_id);
+	mgr->FillNtupleIColumn(2, 1, p.event_id);
+	mgr->FillNtupleIColumn(2, 2, p.pdg);
+	mgr->FillNtupleIColumn(2, 3, p.parent_id);
+	mgr->FillNtupleFColumn(2, 4, p.pdg == 2112 ? p.destruction_energy : p.current_energy);
+	mgr->FillNtupleFColumn(2, 5, p.length);
+	mgr->AddNtupleRow(2);
+      }
+    }
   }
 }

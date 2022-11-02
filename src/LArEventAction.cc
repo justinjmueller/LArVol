@@ -8,9 +8,11 @@
 #include "G4SDManager.hh"
 #include "G4AnalysisManager.hh"
 
-LArEventAction::LArEventAction(LArRunAction* raction)
+LArEventAction::LArEventAction(LArRunAction* raction, bool wvt, bool wh)
 : G4UserEventAction(),
   run_action(raction),
+  write_voxel_tuple(wvt),
+  write_histograms(wh),
   hcid(-1),
   particle_list() { } 
 
@@ -21,9 +23,6 @@ void LArEventAction::BeginOfEventAction(const G4Event*)
   G4SDManager* sd = G4SDManager::GetSDMpointer();
   if(hcid < 0)
     hcid = sd->GetCollectionID("voxel_hit_collection");
-  write_voxel_tuple = run_action->GetWriteTargetTuple();
-  write_target_tuple = run_action->GetWriteTargetTuple();
-  write_histograms = run_action->GetWriteTargetTuple();
 }
 
 void LArEventAction::EndOfEventAction(const G4Event* evt)
@@ -72,8 +71,8 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
   }
   for(auto& m : tracks)
   {
-    if(write_voxel_tuple)
-    {
+    //if(write_voxel_tuple)
+    //{
       run_action->dparticle = m.second;
       mgr->FillNtupleIColumn(0, 0, m.second.track_id);
       mgr->FillNtupleIColumn(0, 1, m.second.event_id);
@@ -91,7 +90,7 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
       mgr->FillNtupleFColumn(0, 13, m.second.py);
       mgr->FillNtupleFColumn(0, 14, m.second.pz);
       mgr->AddNtupleRow(0);
-    }
+      //}
 
     auto length = m.second.vox_x.size() > 2 ? (std::sqrt(std::pow(m.second.vox_x.front() - m.second.vox_x.back(), 2) +
 							 std::pow(m.second.vox_y.front() - m.second.vox_y.back(), 2) +
@@ -107,12 +106,13 @@ void LArEventAction::EndOfEventAction(const G4Event* evt)
   }
   particle_list.clear();
 
-  if(write_histograms)
-  {
-    analysis::find_intv(active_particles);
-    analysis::fill_exiting_histograms(exiting_particles);
-    analysis::fill_active_histograms(active_particles);
-  }
+  /*if(write_histograms)
+    {*/
+  analysis::find_intv(active_particles);
+  //analysis::fill_exiting_histograms(exiting_particles);
+  //analysis::fill_active_histograms(active_particles);
+  analysis::fill_intv_tuple(active_particles);
+    /*}*/
   exiting_particles.clear();
   active_particles.clear();
 }

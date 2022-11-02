@@ -9,7 +9,7 @@ class G4LogicalVolume;
 class LArSteppingAction : public G4UserSteppingAction
 {
 public:
-  LArSteppingAction(LArEventAction* eact);
+  LArSteppingAction(LArEventAction* eact, bool wtt);
   virtual ~LArSteppingAction();
   virtual void UserSteppingAction(const G4Step*);
 private:

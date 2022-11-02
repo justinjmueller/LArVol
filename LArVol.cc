@@ -3,7 +3,6 @@
 #include "G4RunManagerFactory.hh"
 
 #include "G4UImanager.hh"
-//#include "FTFP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"

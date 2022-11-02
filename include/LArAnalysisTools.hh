@@ -22,7 +22,7 @@ namespace analysis
     float px, py, pz;
     std::vector<G4int> vox_x, vox_y, vox_z;
     std::vector<float> energy;
-    bool intv;
+    uint16_t intv_class;
     float length;
     particle();
     particle(int32_t p, uint32_t tid, uint32_t pid, float e, float xi, float yi, float zi, float l);
@@ -34,5 +34,7 @@ namespace analysis
   void find_intv(std::vector<particle>& particles);
   void create_voxel_tuple(particle& p);
   void create_target_tuple();
+  void create_intv_tuple();
+  void fill_intv_tuple(std::vector<particle>& particles);
 }
 #endif

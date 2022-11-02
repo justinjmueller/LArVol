@@ -8,11 +8,12 @@
 #include "G4RunManager.hh"
 #include "G4AnalysisManager.hh"
 #include "G4LogicalVolume.hh"
+#include "LArConfiguration.hh"
 
-LArSteppingAction::LArSteppingAction(LArEventAction* eact)
+LArSteppingAction::LArSteppingAction(LArEventAction* eact, bool wtt)
   : G4UserSteppingAction(),
     event_action(eact),
-    write_target_tuple(eact->GetWriteTargetTuple())
+    write_target_tuple(wtt)
 { }
 
 LArSteppingAction::~LArSteppingAction()
@@ -33,16 +34,13 @@ void LArSteppingAction::UserSteppingAction(const G4Step* step)
 							track->GetKineticEnergy(),
 							vtx.x(), vtx.y(), vtx.z(), 0));
 
-    if(write_target_tuple)
-    {
-      G4AnalysisManager* mgr = G4AnalysisManager::Instance();
-      G4int evt(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
-      mgr->FillNtupleIColumn(1, 0, track->GetTrackID());
-      mgr->FillNtupleIColumn(1, 1, evt);
-      mgr->FillNtupleIColumn(1, 2, track->GetDynamicParticle()->GetPDGcode());
-      mgr->FillNtupleFColumn(1, 3, track->GetKineticEnergy());
-      mgr->AddNtupleRow(1);
-    }
+    G4AnalysisManager* mgr = G4AnalysisManager::Instance();
+    G4int evt(G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID());
+    mgr->FillNtupleIColumn(1, 0, track->GetTrackID());
+    mgr->FillNtupleIColumn(1, 1, evt);
+    mgr->FillNtupleIColumn(1, 2, track->GetDynamicParticle()->GetPDGcode());
+    mgr->FillNtupleFColumn(1, 3, track->GetKineticEnergy());
+    mgr->AddNtupleRow(1);
 
     if(track->GetDynamicParticle()->GetCharge() != 0)
       track->SetTrackStatus(fStopAndKill);
